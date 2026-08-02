@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.DTO
+﻿namespace CF9Project.DTO
 {
     public record UserReadOnlyDTO
     {

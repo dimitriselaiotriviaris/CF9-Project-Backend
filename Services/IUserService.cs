@@ -1,9 +1,9 @@
-﻿using SchoolApp.Core;
-using SchoolApp.Core.Filters;
-using SchoolApp.DTO;
-using SchoolApp.Models;
+﻿using CF9Project.Core;
+using CF9Project.Core.Filters;
+using CF9Project.DTO;
+using CF9Project.Models;
 
-namespace SchoolApp.Services
+namespace CF9Project.Services
 {
     public interface IUserService
     {

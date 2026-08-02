@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Security
+﻿namespace CF9Project.Security
 {
     public class EncryptionUtil : IEncryptionUtil
     {

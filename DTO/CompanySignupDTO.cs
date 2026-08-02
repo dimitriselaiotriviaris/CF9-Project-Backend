@@ -2,11 +2,16 @@
 
 namespace CF9Project.DTO
 {
-    public record UserLoginDTO
+    public record CompanySignupDTO
     {
         [Required(ErrorMessage = "The {0} field is required.")]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Username must be between 2 and 50 characters.")]
         public string? Username { get; set; }
+
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [StringLength(100, ErrorMessage = "Email must not exceed 100 characters.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        public string? Email { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
         [RegularExpression(@"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?\W)^.{8,}$",
@@ -14,6 +19,7 @@ namespace CF9Project.DTO
             "one digit, and one special character")]
         public string? Password { get; set; }
 
-        public bool KeepLoggedIn { get; set; }
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public int? RoleId { get; set; }
     }
 }

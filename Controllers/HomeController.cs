@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolApp.Models;
+using CF9Project.Models;
 using System.Diagnostics;
 using System.Security.Claims;
 
-namespace SchoolApp.Controllers
+namespace CF9Project.Controllers
 {
     /*
      * Η κλάση Controller  δίνει πρόσβαση σε όλα τα "εργαλεία" που χρειάζεσαι μέσα σε ένα MVC controller:

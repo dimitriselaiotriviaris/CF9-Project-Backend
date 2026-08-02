@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
 
-using SchoolApp.DTO;
-using SchoolApp.Exceptions;
-using SchoolApp.Models;
-using SchoolApp.Repositories;
-using SchoolApp.Security;
+using CF9Project.DTO;
+using CF9Project.Exceptions;
+using CF9Project.Models;
+using CF9Project.Repositories;
+using CF9Project.Security;
 
 
-namespace SchoolApp.Services
+namespace CF9Project.Services
 {
-    public class TeacherService : ITeacherService
+    public class CompanyService : ICompanyService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IEncryptionUtil _encryptionUtil;
-        private readonly ILogger<TeacherService> _logger;
+        private readonly ILogger<CompanyService> _logger;
 
-        public TeacherService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<TeacherService> logger, IEncryptionUtil encryptionUtil)
+        public CompanyService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<CompanyService> logger, IEncryptionUtil encryptionUtil)
         {
             _encryptionUtil = encryptionUtil;
             _unitOfWork = unitOfWork;
@@ -24,9 +24,9 @@ namespace SchoolApp.Services
             _logger = logger;
         }
 
-        public async Task SignUpUserAsync(TeacherSignupDTO request)
+        public async Task SignUpUserAsync(CompanySignupDTO request)
         {
-            Teacher teacher = _mapper.Map<Teacher>(request);
+            Company company = _mapper.Map<Company>(request);
             User user = _mapper.Map<User>(request);
 
             try
@@ -39,17 +39,17 @@ namespace SchoolApp.Services
                         existingUser.Username + " already exists");
                 }
 
-                user.Teacher = teacher;
+                user.Company = company;
                 user.Password = _encryptionUtil.Encrypt(user.Password);
                 await _unitOfWork.UserRepository.AddAsync(user);
-                await _unitOfWork.TeacherRepository.AddAsync(teacher);
+                await _unitOfWork.CompanyRepository.AddAsync(company);
 
                 await _unitOfWork.SaveAsync();
-                _logger.LogInformation("Teacher {Teacher} signed up successfully.", teacher);        // ToDo toString in Teacher
+                _logger.LogInformation("Company {Company} signed up successfully.", company);        // ToDo toString in Company
             }
             catch (EntityAlreadyExistsException ex)
             {
-                _logger.LogError("Error signing up tecaher {Teacher}. {Message}", teacher, ex.Message);
+                _logger.LogError("Error signing up company {Company}. {Message}", company, ex.Message);
                 throw;
             }
         }

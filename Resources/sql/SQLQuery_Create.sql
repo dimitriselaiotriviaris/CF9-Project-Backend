@@ -62,8 +62,6 @@ CREATE TABLE [dbo].[Users] (
     [Username]      NVARCHAR(50)    NOT NULL,
     [Email]         NVARCHAR(50)    NOT NULL,
     [Password]      NVARCHAR(60)    NOT NULL,
-    [Firstname]     NVARCHAR(50)    NOT NULL,
-    [Lastname]      NVARCHAR(50)    NOT NULL,
     [RoleId]        INT             NOT NULL,
     CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC),
  
@@ -88,96 +86,79 @@ GO
 -- ============================================
 -- 5. TEACHERS
 -- ============================================
-CREATE TABLE [dbo].[Teachers] (
+CREATE TABLE [dbo].[Companies] (
     [Id]            INT             IDENTITY(1, 1) NOT NULL,
-    [Institution]   NVARCHAR(50)    NOT NULL,
-    [PhoneNumber]   NVARCHAR(20)    NULL,
     [UserId]        INT             NOT NULL,
-    CONSTRAINT [PK_Teachers] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [PK_Companies] PRIMARY KEY CLUSTERED ([Id] ASC),
  
-    CONSTRAINT [FK_Teachers_Users]
+    CONSTRAINT [FK_Companies_Users]
         FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id])
 );
 GO
  
-CREATE NONCLUSTERED INDEX [IX_Teachers_Institution]
-    ON [dbo].[Teachers]([Institution] ASC);
-GO
- 
-CREATE UNIQUE NONCLUSTERED INDEX [IX_Teachers_UserId]
-    ON [dbo].[Teachers]([UserId] ASC);
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Companies_UserId]
+    ON [dbo].[Companies]([UserId] ASC);
 GO
  
 -- ============================================
 -- 6. STUDENTS
 -- ============================================
-CREATE TABLE [dbo].[Students] (
+CREATE TABLE [dbo].[Gamers] (
     [Id]            INT             IDENTITY(1, 1) NOT NULL,
-    [AM]            NVARCHAR(10)    NOT NULL,
-    [Institution]   NVARCHAR(50)    NOT NULL,
-    [Department]    NVARCHAR(50)    NULL,
     [UserId]        INT             NOT NULL,
-    CONSTRAINT [PK_Students] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [PK_Gamers] PRIMARY KEY CLUSTERED ([Id] ASC),
  
-    CONSTRAINT [FK_Students_Users]
+    CONSTRAINT [FK_Gamers_Users]
         FOREIGN KEY ([UserId]) REFERENCES [dbo].[Users]([Id])
 );
 GO
  
-CREATE UNIQUE NONCLUSTERED INDEX [IX_Students_AM]
-    ON [dbo].[Students]([AM] ASC);
-GO
- 
-CREATE UNIQUE NONCLUSTERED INDEX [IX_Students_UserId]
-    ON [dbo].[Students]([UserId] ASC);
-GO
- 
-CREATE NONCLUSTERED INDEX [IX_Students_Institution]
-    ON [dbo].[Students]([Institution] ASC);
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Gamers_UserId]
+    ON [dbo].[Gamers]([UserId] ASC);
 GO
  
 -- ============================================
 -- 7. COURSES
 -- ============================================
-CREATE TABLE [dbo].[Courses] (
+CREATE TABLE [dbo].[Games] (
     [Id]            INT             IDENTITY(1, 1) NOT NULL,
     [Description]   NVARCHAR(50)    NOT NULL,
-    [TeacherId]     INT             NULL,
-    CONSTRAINT [PK_Courses] PRIMARY KEY CLUSTERED ([Id] ASC),
+    [CompanyId]     INT             NULL,
+    CONSTRAINT [PK_Games] PRIMARY KEY CLUSTERED ([Id] ASC),
  
-    CONSTRAINT [FK_Courses_Teachers]
-        FOREIGN KEY ([TeacherId]) REFERENCES [dbo].[Teachers]([Id])
+    CONSTRAINT [FK_Games_Companies]
+        FOREIGN KEY ([CompanyId]) REFERENCES [dbo].[Companies]([Id])
 );
 GO
  
-CREATE NONCLUSTERED INDEX [IX_Courses_Description]
-    ON [dbo].[Courses]([Description] ASC);
+CREATE NONCLUSTERED INDEX [IX_Games_Description]
+    ON [dbo].[Games]([Description] ASC);
 GO
  
-CREATE NONCLUSTERED INDEX [IX_Courses_TeacherId]
-    ON [dbo].[Courses]([TeacherId] ASC);
+CREATE NONCLUSTERED INDEX [IX_Games_CompanyId]
+    ON [dbo].[Games]([CompanyId] ASC);
 GO
  
 -- ============================================
 -- 8. COURSES_STUDENTS (Many-to-Many)
 -- ============================================
-CREATE TABLE [dbo].[CoursesStudents] (
-    [CourseId]      INT NOT NULL,
-    [StudentId]     INT NOT NULL,
-    CONSTRAINT [PK_CoursesStudents] PRIMARY KEY CLUSTERED ([CourseId], [StudentId]),
+CREATE TABLE [dbo].[GamesGamers] (
+    [GameId]      INT NOT NULL,
+    [GamerId]     INT NOT NULL,
+    CONSTRAINT [PK_GamesGamers] PRIMARY KEY CLUSTERED ([GameId], [GamerId]),
  
-    CONSTRAINT [FK_CoursesStudents_Courses]
-        FOREIGN KEY ([CourseId]) REFERENCES [dbo].[Courses]([Id]),
+    CONSTRAINT [FK_GamesGamers_Games]
+        FOREIGN KEY ([GameId]) REFERENCES [dbo].[Games]([Id]),
  
-    CONSTRAINT [FK_CoursesStudents_Students]
-        FOREIGN KEY ([StudentId]) REFERENCES [dbo].[Students]([Id])
+    CONSTRAINT [FK_GamesGamers_Gamers]
+        FOREIGN KEY ([GamerId]) REFERENCES [dbo].[Gamers]([Id])
 );
 GO
  
-CREATE INDEX [IX_CoursesStudents_CourseId]
-    ON [dbo].[CoursesStudents]([CourseId]);
+CREATE INDEX [IX_GamesGamers_GameId]
+    ON [dbo].[GamesGamers]([GameId]);
 GO
  
-CREATE INDEX [IX_CoursesStudents_StudentId]
-    ON [dbo].[CoursesStudents]([StudentId]);
+CREATE INDEX [IX_GamesGamers_GamerId]
+    ON [dbo].[GamesGamers]([GamerId]);
 GO

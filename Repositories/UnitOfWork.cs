@@ -1,26 +1,26 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SchoolApp.Data;
-using SchoolApp.Models;
+using CF9Project.Data;
+using CF9Project.Models;
 using System.Diagnostics;
 
-namespace SchoolApp.Repositories
+namespace CF9Project.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SchoolMvc9Context _context;
+        private readonly Data.CF9ProjectContext _context;
         public IUserRepository UserRepository { get; }
-        public ITeacherRepository TeacherRepository { get; }
-        public IStudentRepository StudentRepository { get; }
-        public ICourseRepository CourseRepository { get; }
+        public ICompanyRepository CompanyRepository { get; }
+        public IGamerRepository GamerRepository { get; }
+        public IGameRepository GameRepository { get; }
 
-        public UnitOfWork(SchoolMvc9Context context)
+        public UnitOfWork(Data.CF9ProjectContext context)
         {
             _context = context;
             UserRepository = new UserRepository(context);
-            StudentRepository = new StudentRepository(context);
-            TeacherRepository = new TeacherRepository(context);
-            CourseRepository = new CourseRepository(context);
+            GamerRepository = new GamerRepository(context);
+            CompanyRepository = new CompanyRepository(context);
+            GameRepository = new GameRepository(context);
         }
 
         public async Task<bool> SaveAsync()

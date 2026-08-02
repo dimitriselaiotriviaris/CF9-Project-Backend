@@ -1,8 +1,8 @@
-﻿using SchoolApp.Core;
-using SchoolApp.Models;
+﻿using CF9Project.Core;
+using CF9Project.Models;
 using System.Linq.Expressions;
 
-namespace SchoolApp.Repositories
+namespace CF9Project.Repositories
 {
     public interface IUserRepository : IBaseRepository<User>
     {

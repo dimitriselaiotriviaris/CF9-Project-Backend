@@ -1,29 +1,29 @@
 ﻿using AutoMapper;
-using SchoolApp.Core;
-using SchoolApp.Data;
-using SchoolApp.DTO;
-using SchoolApp.Models;
-using SchoolApp.Repositories;
+using CF9Project.Core;
+using CF9Project.Data;
+using CF9Project.DTO;
+using CF9Project.Models;
+using CF9Project.Repositories;
 using Serilog;
 using System;
 
-namespace SchoolApp.Services
+namespace CF9Project.Services
 {
-    public class StudentService : IStudentService
+    public class GamerService : IGamerService
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        private readonly ILogger<StudentService> logger = new LoggerFactory().AddSerilog().CreateLogger<StudentService>();
+        private readonly ILogger<GamerService> logger = new LoggerFactory().AddSerilog().CreateLogger<GamerService>();
 
-        public StudentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public GamerService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
 
-        public async Task<PaginatedResult<UserReadOnlyDTO>> GetPaginatedStudentsAsync(int pageNumber, int pageSize)
+        public async Task<PaginatedResult<UserReadOnlyDTO>> GetPaginatedGamersAsync(int pageNumber, int pageSize)
         {
-            var result = await unitOfWork.StudentRepository.GetPaginatedUsersStudentsAsync(pageNumber, pageSize);
+            var result = await unitOfWork.GamerRepository.GetPaginatedUsersGamersAsync(pageNumber, pageSize);
 
             var dtoResult = new PaginatedResult<UserReadOnlyDTO>()
             {
@@ -32,8 +32,6 @@ namespace SchoolApp.Services
                     Id = u.Id,
                     Username = u.Username,
                     Email = u.Email,
-                    Firstname = u.Firstname,
-                    Lastname = u.Lastname,
                     UserRole = u.Role.Name
                 }).ToList(),
                 TotalRecords = result.TotalRecords,

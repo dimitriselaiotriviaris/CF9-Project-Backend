@@ -1,15 +1,15 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SchoolApp.Data;
+using CF9Project.Data;
 
-namespace SchoolApp.Repositories
+namespace CF9Project.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        protected readonly SchoolMvc9Context _context;
+        protected readonly Data.CF9ProjectContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public BaseRepository(SchoolMvc9Context context)
+        public BaseRepository(Data.CF9ProjectContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();  // dynamically retrieves DbSet

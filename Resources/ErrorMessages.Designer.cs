@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SchoolApp.Resources {
+namespace CF9Project.Resources {
     using System;
     
     

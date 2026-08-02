@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Models
+﻿namespace CF9Project.Models
 {
     public abstract class BaseEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Core
+﻿namespace CF9Project.Core
 {
     public class Error
     {

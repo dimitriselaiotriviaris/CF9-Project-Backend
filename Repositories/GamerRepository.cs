@@ -1,46 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SchoolApp.Core;
-using SchoolApp.Data;
-using SchoolApp.Models;
+using CF9Project.Core;
+using CF9Project.Data;
+using CF9Project.Models;
 using System.Linq.Expressions;
 
-namespace SchoolApp.Repositories
+namespace CF9Project.Repositories
 {
-    public class StudentRepository : BaseRepository<Student>, IStudentRepository
+    public class GamerRepository : BaseRepository<Gamer>, IGamerRepository
     {
-        public StudentRepository(SchoolMvc9Context context) : base(context)
+        public GamerRepository(Data.CF9ProjectContext context) : base(context)
         {
         }
 
-        public async Task<Student?> GetByAm(string? am)
-        {
-            return await _context.Students
-                .Where(s => s.Am == am)
-                .SingleOrDefaultAsync(); // fetched zero or one
-        }
-
-        public async Task<PaginatedResult<User>> GetPaginatedUsersStudentsAsync(int pageNumber, int pageSize)
+        public async Task<PaginatedResult<User>> GetPaginatedUsersGamersAsync(int pageNumber, int pageSize)
         {
             int skip = (pageNumber - 1) * pageSize;
 
             var usersWithRoleStudent = await _context.Users
-                .Include(u => u.Student) // Εager loading της σχετικής οντότητας Student   
-                .Where(u => u.Student != null)   
+                .Include(u => u.Gamer) // Εager loading της σχετικής οντότητας Student   
+                .Where(u => u.Gamer != null)   
                 .Skip(skip)
                 .Take(pageSize)
                 .ToListAsync();
 
             int totalRecords = await _context.Users
-                .Where(u => u.Student != null)
+                .Where(u => u.Gamer != null)
                 .CountAsync();
 
             return new PaginatedResult<User>(usersWithRoleStudent, totalRecords, pageNumber, pageSize);
         }
 
-        public async Task<PaginatedResult<Student>> GetPaginatedUsersStudentsFilteredAsync(int pageNumber, 
-            int pageSize, List<Expression<Func<Student, bool>>> predicates)
+        public async Task<PaginatedResult<Gamer>> GetPaginatedUsersGamersFilteredAsync(int pageNumber, 
+            int pageSize, List<Expression<Func<Gamer, bool>>> predicates)
         {
-            IQueryable<Student> query = _context.Students;
+            IQueryable<Gamer> query = _context.Gamers;
 
             // Apply predicates as Expression<Func<Student, bool>> so they run in DB
             if (predicates != null && predicates.Count > 0)
@@ -63,7 +56,7 @@ namespace SchoolApp.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PaginatedResult<Student>
+            return new PaginatedResult<Gamer>
             {
                 Data = data,
                 TotalRecords = totalRecords,
@@ -72,13 +65,13 @@ namespace SchoolApp.Repositories
             };
         }
 
-        public async Task<List<Course>> GetStudentCoursesAsync(int studentId)
+        public async Task<List<Game>> GetGamerGamesAsync(int gamerId)
         {
-            List<Course> courses;
+            List<Game> courses;
 
-            courses = await _context.Students
-                .Where(s => s.Id == studentId)
-                .SelectMany(c => c.Courses)
+            courses = await _context.Gamers
+                .Where(s => s.Id == gamerId)
+                .SelectMany(c => c.Games)
                 .ToListAsync();
 
             return courses;

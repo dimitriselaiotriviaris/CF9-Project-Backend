@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SchoolApp.Models;
+namespace CF9Project.Models;
 
 public class Capability
 {

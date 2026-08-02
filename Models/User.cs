@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Models;
+﻿namespace CF9Project.Models;
 
 public class User : BaseEntity
 {
@@ -7,10 +7,8 @@ public class User : BaseEntity
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;
-    public string Firstname { get; set; } = null!;
-    public string Lastname { get; set; } = null!;
     public int RoleId { get; set; }
     public Role Role { get; set; } = null!;
-    public Student? Student { get; set; }
-    public Teacher? Teacher { get; set; }
+    public Gamer? Gamer { get; set; }
+    public Company? Company { get; set; }
 }

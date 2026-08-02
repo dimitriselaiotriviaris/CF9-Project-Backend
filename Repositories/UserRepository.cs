@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SchoolApp.Core;
-using SchoolApp.Data;
-using SchoolApp.Models;
-using SchoolApp.Security;
+using CF9Project.Core;
+using CF9Project.Data;
+using CF9Project.Models;
+using CF9Project.Security;
 using System.Linq.Expressions;
 
-namespace SchoolApp.Repositories
+namespace CF9Project.Repositories
 {
     public class UserRepository : BaseRepository<User>, IUserRepository
     {
        
-        public UserRepository(SchoolMvc9Context context) : base(context)
+        public UserRepository(Data.CF9ProjectContext context) : base(context)
         {
             
         }

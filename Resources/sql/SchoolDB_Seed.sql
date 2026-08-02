@@ -2,28 +2,28 @@ INSERT INTO [dbo].[Roles] ([Name])
 VALUES
     ('ADMIN'),
     ('EMPLOYEE'),
-    ('TEACHER'),
-    ('STUDENT');
+    ('COMPANY'),
+    ('GAMER');
 
 INSERT INTO [dbo].[Capabilities] ([Name], [Description])
 VALUES
-    ('INSERT_TEACHER', 'Create a new teacher'),
-    ('VIEW_TEACHERS', 'View teacher list and details'),
-    ('VIEW_TEACHER', 'View teacher'),
-    ('EDIT_TEACHER', 'Modify existing teacher'),
-    ('DELETE_TEACHER', 'Remove a teacher'),
-    ('VIEW_ONLY_TEACHER', 'View only own teacher details'),
-    ('INSERT_STUDENT', 'Create a new student'),
-    ('VIEW_STUDENTS', 'View student list and details'),
-    ('VIEW_STUDENT', 'View student'),
-    ('EDIT_STUDENT', 'Modify existing student'),
-    ('DELETE_STUDENT', 'Remove a student'),
-    ('VIEW_ONLY_STUDENT', 'View only own student details'),
-    ('INSERT_COURSE', 'Create a new course'),
-    ('VIEW_COURSES', 'View course list and details'),
-    ('VIEW_COURSE', 'View course'),
-    ('EDIT_COURSE', 'Modify existing course'),
-    ('DELETE_COURSE', 'Remove a course');
+    ('INSERT_COMPANY', 'Create a new company'),
+    ('VIEW_COMPANIES', 'View company list and details'),
+    ('VIEW_COMPANY', 'View company'),
+    ('EDIT_COMPANY', 'Modify existing company'),
+    ('DELETE_COMPANY', 'Remove a company'),
+    ('VIEW_ONLY_COMPANY', 'View only own company details'),
+    ('INSERT_GAMER', 'Create a new gamer'),
+    ('VIEW_GAMERS', 'View gamer list and details'),
+    ('VIEW_GAMER', 'View gamer'),
+    ('EDIT_GAMER', 'Modify existing gamer'),
+    ('DELETE_GAMER', 'Remove a gamer'),
+    ('VIEW_ONLY_GAMER', 'View only own gamer details'),
+    ('INSERT_GAME', 'Create a new game'),
+    ('VIEW_GAMES', 'View game list and details'),
+    ('VIEW_GAME', 'View game'),
+    ('EDIT_GAME', 'Modify existing game'),
+    ('DELETE_GAME', 'Remove a game');
 
 INSERT INTO [dbo].[RolesCapabilities] ([RolesId], [CapabilitiesId])
 SELECT r.[Id], c.[Id]
@@ -37,23 +37,23 @@ SELECT r.[Id], c.[Id]
 FROM [dbo].[Roles] r
 CROSS JOIN [dbo].[Capabilities] c
 WHERE r.[Name] = 'EMPLOYEE'
-  AND c.[Name] IN ('VIEW_TEACHERS', 'VIEW_TEACHER',
-                    'VIEW_STUDENTS', 'VIEW_STUDENT',
-                    'VIEW_COURSES', 'VIEW_COURSE');
+  AND c.[Name] IN ('VIEW_COMPANIES', 'VIEW_COMPANY',
+                    'VIEW_GAMERS', 'VIEW_GAMER',
+                    'VIEW_GAMES', 'VIEW_GAME');
 
 
 INSERT INTO [dbo].[RolesCapabilities] ([RolesId], [CapabilitiesId])
 SELECT r.[Id], c.[Id]
 FROM [dbo].[Roles] r
 CROSS JOIN [dbo].[Capabilities] c
-WHERE r.[Name] = 'TEACHER'
-  AND c.[Name] IN ('VIEW_ONLY_TEACHER');
+WHERE r.[Name] = 'COMPANY'
+  AND c.[Name] IN ('VIEW_ONLY_COMPANY');
 
 
 INSERT INTO [dbo].[RolesCapabilities] ([RolesId], [CapabilitiesId])
 SELECT r.[Id], c.[Id]
 FROM [dbo].[Roles] r
 CROSS JOIN [dbo].[Capabilities] c
-WHERE r.[Name] = 'STUDENT'
-  AND c.[Name] IN ('VIEW_ONLY_STUDENT');
+WHERE r.[Name] = 'GAMER'
+  AND c.[Name] IN ('VIEW_ONLY_GAMER');
 

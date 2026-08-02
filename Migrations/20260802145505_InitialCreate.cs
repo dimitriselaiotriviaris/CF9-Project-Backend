@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SchoolApp.Migrations
+namespace CF9Project.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -71,8 +71,6 @@ namespace SchoolApp.Migrations
                     Username = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Firstname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Lastname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -91,14 +89,11 @@ namespace SchoolApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "Companies",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AM = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Institution = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Department = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -107,9 +102,9 @@ namespace SchoolApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.PrimaryKey("PK_Companies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_UserId",
+                        name: "FK_Companies_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -117,13 +112,11 @@ namespace SchoolApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teachers",
+                name: "Gamers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Institution = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -132,9 +125,9 @@ namespace SchoolApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teachers", x => x.Id);
+                    table.PrimaryKey("PK_Gamers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teachers_UserId",
+                        name: "FK_Gamers_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -142,13 +135,13 @@ namespace SchoolApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Courses",
+                name: "Games",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: true),
+                    CompanyId = table.Column<int>(type: "int", nullable: true),
                     InsertedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -156,34 +149,34 @@ namespace SchoolApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
+                    table.PrimaryKey("PK_Games", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Courses_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "Teachers",
+                        name: "FK_Games_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "StudentsCourses",
+                name: "GamersGames",
                 columns: table => new
                 {
-                    CoursesId = table.Column<int>(type: "int", nullable: false),
-                    StudentsId = table.Column<int>(type: "int", nullable: false)
+                    GamersId = table.Column<int>(type: "int", nullable: false),
+                    GamesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentsCourses", x => new { x.CoursesId, x.StudentsId });
+                    table.PrimaryKey("PK_GamersGames", x => new { x.GamersId, x.GamesId });
                     table.ForeignKey(
-                        name: "FK_StudentsCourses_Courses_CoursesId",
-                        column: x => x.CoursesId,
-                        principalTable: "Courses",
+                        name: "FK_GamersGames_Gamers_GamersId",
+                        column: x => x.GamersId,
+                        principalTable: "Gamers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentsCourses_Students_StudentsId",
-                        column: x => x.StudentsId,
-                        principalTable: "Students",
+                        name: "FK_GamersGames_Games_GamesId",
+                        column: x => x.GamesId,
+                        principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -195,14 +188,31 @@ namespace SchoolApp.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_Description",
-                table: "Courses",
-                column: "Description");
+                name: "IX_Companies_UserId",
+                table: "Companies",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_TeacherId",
-                table: "Courses",
-                column: "TeacherId");
+                name: "IX_Gamers_UserId",
+                table: "Gamers",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GamersGames_GamesId",
+                table: "GamersGames",
+                column: "GamesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Games_CompanyId",
+                table: "Games",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Games_Description",
+                table: "Games",
+                column: "Description");
 
             migrationBuilder.CreateIndex(
                 name: "UQ_Roles_Name",
@@ -219,39 +229,6 @@ namespace SchoolApp.Migrations
                 name: "IX_RolesCapabilities_RolesId",
                 table: "RolesCapabilities",
                 column: "RolesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_AM",
-                table: "Students",
-                column: "AM",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_Institution",
-                table: "Students",
-                column: "Institution");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Students_UserId",
-                table: "Students",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentsCourses_StudentsId",
-                table: "StudentsCourses",
-                column: "StudentsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teachers_Institution",
-                table: "Teachers",
-                column: "Institution");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teachers_UserId",
-                table: "Teachers",
-                column: "UserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -275,22 +252,22 @@ namespace SchoolApp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "GamersGames");
+
+            migrationBuilder.DropTable(
                 name: "RolesCapabilities");
 
             migrationBuilder.DropTable(
-                name: "StudentsCourses");
+                name: "Gamers");
+
+            migrationBuilder.DropTable(
+                name: "Games");
 
             migrationBuilder.DropTable(
                 name: "Capabilities");
 
             migrationBuilder.DropTable(
-                name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "Students");
-
-            migrationBuilder.DropTable(
-                name: "Teachers");
+                name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "Users");

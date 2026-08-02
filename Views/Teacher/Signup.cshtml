@@ -1,5 +1,7 @@
-﻿@using SchoolApp.Core
-@model SchoolApp.DTO.TeacherSignupDTO
+﻿@using CF9Project
+@using CF9Project.Core
+@using CF9Project.Models
+@model CF9Project.DTO.CompanySignupDTO
 
 @{
     // Layout = null;
@@ -32,40 +34,14 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <label asp-for="Firstname" class="col-md-1 col-form-label text-start">Firstname</label>
-                    <div class="col-md-5" style="min-height: 4rem;">
-                        <input type="text" class="form-control" asp-for="Firstname"
-                               placeholder="Enter firstname" />
-                        <span asp-validation-for="Firstname" class="text-danger"></span>
-                    </div>
-                    <label asp-for="Lastname" class="col-md-1 col-form-label text-start">Lastname</label>
-                    <div class="col-md-5" style="min-height: 4rem;">
-                        <input type="text" class="form-control" asp-for="Lastname"
-                               placeholder="Enter lastname" />
-                        <span asp-validation-for="Lastname" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row mb-3">
                     <label asp-for="Email" class="col-md-1 col-form-label text-start">Email</label>
                     <div class="col-md-5" style="min-height: 4rem;">
                         <input type="text" class="form-control" asp-for="Email"
                                placeholder="Enter email" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <label asp-for="PhoneNumber" class="col-md-1 col-form-label text-start">Phone</label>
-                    <div class="col-md-5" style="min-height: 4rem;">
-                        <input type="text" class="form-control" asp-for="PhoneNumber"
-                               placeholder="Enter phone number" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
                 </div>
                 <div class="row mb-3">
-                    <label asp-for="Institution" class="col-md-1 col-form-label text-start">Institution</label>
-                    <div class="col-md-5" style="min-height: 4rem;">
-                        <input type="text" class="form-control" asp-for="Institution"
-                               placeholder="Enter institution" />
-                        <span asp-validation-for="Institution" class="text-danger"></span>
-                    </div>
                     <label asp-for="RoleId" class="col-md-1 col-form-label text-start">Role</label>
                     <div class="col-md-5" style="min-height: 4rem;">
                         <select class="form-select" aria-label="Default select example" asp-for="RoleId">

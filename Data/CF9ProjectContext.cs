@@ -1,25 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SchoolApp.Models;
+using CF9Project.Models;
 
-namespace SchoolApp.Data;
+namespace CF9Project.Data;
 
-public class SchoolMvc9Context : DbContext
+public class CF9ProjectContext : DbContext
 {
 
-    public SchoolMvc9Context(DbContextOptions<SchoolMvc9Context> options)
+    public CF9ProjectContext(DbContextOptions<CF9ProjectContext> options)
         : base(options)
     {
     }
 
     public DbSet<Capability> Capabilities { get; set; }
 
-    public DbSet<Course> Courses { get; set; }
+    public DbSet<Game> Games { get; set; }
 
     public DbSet<Role> Roles { get; set; }
 
-    public DbSet<Student> Students { get; set; }
+    public DbSet<Gamer> Gamers { get; set; }
 
-    public DbSet<Teacher> Teachers { get; set; }
+    public DbSet<Company> Companies { get; set; }
 
     public DbSet<User> Users { get; set; }
 
@@ -33,18 +33,18 @@ public class SchoolMvc9Context : DbContext
             entity.HasIndex(e => e.Name, "UQ_Capabilities_Name").IsUnique();
         });
 
-        modelBuilder.Entity<Course>(entity =>
+        modelBuilder.Entity<Game>(entity =>
         {
             entity.Property(e => e.Description).HasMaxLength(50);
-            
-            entity.HasOne(d => d.Teacher)
-                .WithMany(p => p.Courses)
-                .HasForeignKey(d => d.TeacherId) 
-                .HasConstraintName("FK_Courses_TeacherId");
+
+            entity.HasOne(d => d.Company)
+                .WithMany(p => p.Games)
+                .HasForeignKey(d => d.CompanyId)
+                .HasConstraintName("FK_Games_CompanyId");
 
             // Τα πεδία του Composite Key ονομάζονται by default StudentsId και CoursesId
-            entity.HasMany(d => d.Students).WithMany(p => p.Courses)
-                    .UsingEntity("StudentsCourses");
+            entity.HasMany(d => d.Gamers).WithMany(p => p.Games)
+                    .UsingEntity("GamersGames");
 
             // Αν θέλουμε explicit ονομασίες πεδίων:
             //entity.HasMany(d => d.Students).WithMany(p => p.Courses)
@@ -52,8 +52,8 @@ public class SchoolMvc9Context : DbContext
             //        l => l.HasOne(typeof(Student)).WithMany().HasForeignKey("StudentId"),
             //        r => r.HasOne(typeof(Course)).WithMany().HasForeignKey("CourseId"));
 
-            entity.HasIndex(e => e.Description, "IX_Courses_Description");
-            entity.HasIndex(e => e.TeacherId, "IX_Courses_TeacherId");
+            entity.HasIndex(e => e.Description, "IX_Games_Description");
+            entity.HasIndex(e => e.CompanyId, "IX_Games_CompanyId");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -70,44 +70,31 @@ public class SchoolMvc9Context : DbContext
             entity.HasIndex(e => e.Name, "UQ_Roles_Name").IsUnique();
         });
 
-        modelBuilder.Entity<Student>(entity =>
-        {
-            entity.Property(e => e.Am)
-                .HasMaxLength(10)
-                .HasColumnName("AM");
-            entity.Property(e => e.Department).HasMaxLength(50);
-            entity.Property(e => e.Institution).HasMaxLength(50);
-
-            entity.HasOne(d => d.User).WithOne(p => p.Student)
-                .HasForeignKey<Student>(d => d.UserId)
+        modelBuilder.Entity<Gamer>(entity =>
+        { 
+            entity.HasOne(d => d.User).WithOne(p => p.Gamer)
+                .HasForeignKey<Gamer>(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Students_UserId");
+                .HasConstraintName("FK_Gamers_UserId");
 
-            entity.HasIndex(e => e.Am, "IX_Students_AM").IsUnique();
-            entity.HasIndex(e => e.Institution, "IX_Students_Institution");
-            entity.HasIndex(e => e.UserId, "IX_Students_UserId").IsUnique();
+            entity.HasIndex(e => e.UserId, "IX_Gamers_UserId").IsUnique();
         });
 
-        modelBuilder.Entity<Teacher>(entity =>
-        {
-            entity.Property(e => e.Institution).HasMaxLength(50);
-            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+        modelBuilder.Entity<Company>(entity =>
+        { 
 
-            entity.HasOne(d => d.User).WithOne(p => p.Teacher)
-                .HasForeignKey<Teacher>(d => d.UserId)
-                //  Ισχύει ούτως ή άλλως από το EF. Αλλά δεν πειράζει να είναι explicit για readability.
+            entity.HasOne(d => d.User).WithOne(p => p.Company) 
+                .HasForeignKey<Company>(d => d.UserId)
+                //  Ισχύει ούτως ή αλλιώς από το EF. Αλλά δεν πειράζει να είναι explicit για readability.
                 .OnDelete(DeleteBehavior.Cascade)   
-                .HasConstraintName("FK_Teachers_UserId");
+                .HasConstraintName("FK_Companies_UserId");
 
-            entity.HasIndex(e => e.Institution, "IX_Teachers_Institution");
-            entity.HasIndex(e => e.UserId, "IX_Teachers_UserId").IsUnique();
+            entity.HasIndex(e => e.UserId, "IX_Companies_UserId").IsUnique();
         });
 
         modelBuilder.Entity<User>(entity =>
         {
             entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.Firstname).HasMaxLength(50);
-            entity.Property(e => e.Lastname).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(60);
             entity.Property(e => e.Username).HasMaxLength(50);
 

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using SchoolApp.DTO;
-using SchoolApp.Models;
+using CF9Project.DTO;
+using CF9Project.Models;
 
-namespace SchoolApp.Configuration
+namespace CF9Project.Configuration
 {
     public class MapperConfig : Profile
     {
@@ -11,10 +11,10 @@ namespace SchoolApp.Configuration
             CreateMap<User, UserReadOnlyDTO>()
                 .ForMember(dest => dest.UserRole, opt => opt.MapFrom(src => src.Role.Name));
 
-            CreateMap<TeacherSignupDTO, User>()
+            CreateMap<CompanySignupDTO, User>()
                 .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.RoleId!.Value));
 
-            CreateMap<TeacherSignupDTO, Teacher>();
+            CreateMap<CompanySignupDTO, Company>();
         }
     }
 }

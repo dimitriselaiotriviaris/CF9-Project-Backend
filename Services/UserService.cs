@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using SchoolApp.Core;
-using SchoolApp.Core.Filters;
-using SchoolApp.DTO;
-using SchoolApp.Exceptions;
-using SchoolApp.Models;
-using SchoolApp.Repositories;
-using SchoolApp.Security;
+using CF9Project.Core;
+using CF9Project.Core.Filters;
+using CF9Project.DTO;
+using CF9Project.Exceptions;
+using CF9Project.Models;
+using CF9Project.Repositories;
+using CF9Project.Security;
 using System.Linq.Expressions;
 
-namespace SchoolApp.Services
+namespace CF9Project.Services
 {  
     public class UserService : IUserService
     {

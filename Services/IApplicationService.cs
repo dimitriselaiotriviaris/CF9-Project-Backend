@@ -1,10 +1,10 @@
-﻿namespace SchoolApp.Services
+﻿namespace CF9Project.Services
 {
     public interface IApplicationService
     {
         IUserService UserService { get;  }
-        ITeacherService TeacherService { get; }
-        IStudentService StudentService { get; }
+        ICompanyService CompanyService { get; }
+        IGamerService GamerService { get; }
         // Other services can be added here as needed
     }
 }

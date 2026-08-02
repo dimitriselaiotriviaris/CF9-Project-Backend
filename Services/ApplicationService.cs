@@ -1,17 +1,17 @@
-﻿namespace SchoolApp.Services
+﻿namespace CF9Project.Services
 {
     public class ApplicationService : IApplicationService
     {
         public IUserService UserService { get; }
-        public ITeacherService TeacherService { get; }
-        public IStudentService StudentService { get; }
+        public ICompanyService CompanyService { get; }
+        public IGamerService GamerService { get; }
 
         public ApplicationService(IUserService userService, 
-            ITeacherService teacherService, IStudentService studentService)
+            ICompanyService companyService, IGamerService gamerService)
         {
             UserService = userService;
-            TeacherService = teacherService;
-            StudentService = studentService;
+            CompanyService = companyService;
+            GamerService = gamerService;
         }
     }
 }

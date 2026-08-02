@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using SchoolApp.Data;
-using SchoolApp.Repositories;
-using SchoolApp.Security;
-using SchoolApp.Services;
+using CF9Project.Data;
+using CF9Project.Repositories;
+using CF9Project.Security;
+using CF9Project.Services;
 using Serilog;
 
-namespace SchoolApp
+namespace CF9Project
 {
     public class Program
     {
@@ -16,18 +16,19 @@ namespace SchoolApp
             var builder = WebApplication.CreateBuilder(args);
 
             var connString = builder.Configuration.GetConnectionString("DevConnection");
-            builder.Services.AddDbContext<SchoolMvc9Context>(options => {
-            options.UseSqlServer(connString);
-            options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging();
-            options.LogTo(Console.WriteLine, LogLevel.Information);
+            builder.Services.AddDbContext<CF9ProjectContext>(options =>
+            {
+                options.UseSqlServer(connString);
+                options.EnableDetailedErrors();
+                options.EnableSensitiveDataLogging();
+                options.LogTo(Console.WriteLine, LogLevel.Information);
             });
 
             builder.Services.AddSingleton<IEncryptionUtil, EncryptionUtil>();
             builder.Services.AddRepositories();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<ITeacherService, TeacherService>();
-            builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<ICompanyService, CompanyService>();
+            builder.Services.AddScoped<IGamerService, GamerService>();
             builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
             builder.Services.AddAutoMapper(cfg => cfg.AddProfile<Configuration.MapperConfig>());
@@ -52,12 +53,12 @@ namespace SchoolApp
                 .SetFallbackPolicy(new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build())
-            .AddPolicy("CanInsertTeacher", policy =>
-                policy.RequireClaim("Capability", "INSERT_TEACHER"))
-            .AddPolicy("CanViewTeachers", policy =>
-                policy.RequireClaim("Capability", "VIEW_TEACHERS"))
-            .AddPolicy("CanDeleteStudent", policy =>
-                policy.RequireClaim("Capability", "DELETE_STUDENT"));
+            .AddPolicy("CanInsertCompany", policy =>
+                policy.RequireClaim("Capability", "INSERT_COMPANY"))
+            .AddPolicy("CanViewCompanies", policy =>
+                policy.RequireClaim("Capability", "VIEW_COMPANIES"))
+            .AddPolicy("CanDeleteGamer", policy =>
+                policy.RequireClaim("Capability", "DELETE_GAMER"));
 
             var app = builder.Build();
 

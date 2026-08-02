@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolApp.DTO;
-using SchoolApp.Exceptions;
-using SchoolApp.Services;
+using CF9Project.DTO;
+using CF9Project.Exceptions;
+using CF9Project.Services;
 using System.Security.Claims;
 
-namespace SchoolApp.Controllers
+namespace CF9Project.Controllers
 {
     public class UserController : Controller
     {
@@ -34,13 +34,13 @@ namespace SchoolApp.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
-            else if (User.IsInRole("TEACHER"))
+            else if (User.IsInRole("COMPANY"))
             {
-                return RedirectToAction("Index", "Teacher");
+                return RedirectToAction("Index", "Company");
             }
-            else if (User.IsInRole("STUDENT"))
+            else if (User.IsInRole("GAMER"))
             {
-                return RedirectToAction("Index", "Student");
+                return RedirectToAction("Index", "Gamer");
             }
             else
             {

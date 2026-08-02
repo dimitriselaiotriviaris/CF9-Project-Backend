@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Exceptions
+﻿namespace CF9Project.Exceptions
 {
     public class EntityNotAuthorizedException : AppException
     {

@@ -1,11 +1,11 @@
-﻿namespace SchoolApp.Repositories
+﻿namespace CF9Project.Repositories
 {
     public interface IUnitOfWork
     {
         IUserRepository UserRepository { get; }
-        IStudentRepository StudentRepository { get; }
-        ITeacherRepository TeacherRepository { get; }
-        ICourseRepository CourseRepository { get; }
+        IGamerRepository GamerRepository { get; }
+        ICompanyRepository CompanyRepository { get; }
+        IGameRepository GameRepository { get; }
 
         Task<bool> SaveAsync();
     }

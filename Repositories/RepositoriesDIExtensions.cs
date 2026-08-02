@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Repositories
+﻿namespace CF9Project.Repositories
 {
     public static class RepositoriesDIExtensions
     {

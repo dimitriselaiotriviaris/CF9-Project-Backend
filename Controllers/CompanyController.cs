@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolApp.Core;
-using SchoolApp.DTO;
-using SchoolApp.Services;
+using CF9Project.Core;
+using CF9Project.DTO;
+using CF9Project.Services;
 
-namespace SchoolApp.Controllers
+namespace CF9Project.Controllers
 {
-    public class TeacherController : Controller
+    public class CompanyController : Controller
     {
         private readonly IApplicationService applicationService;
         public List<Error> ErrorArray { get; set; } = [];
 
 
-        public TeacherController(IApplicationService applicationService)
+        public CompanyController(IApplicationService applicationService)
         {
             this.applicationService = applicationService;
         }
 
         [HttpGet]
-        [Authorize(Roles = "TEACHER")]
+        [Authorize(Roles = "COMPANY")]
         public IActionResult Index()
         {
             return View();
@@ -26,7 +26,7 @@ namespace SchoolApp.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Authorize(Policy = "CanInsertTeacher")]
+        [Authorize(Policy = "CanInsertCompany")]
         public IActionResult Signup()
         {
            return View();
@@ -34,16 +34,16 @@ namespace SchoolApp.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Signup(TeacherSignupDTO teacherSignupDTO)
+        public async Task<IActionResult> Signup(CompanySignupDTO companySignupDTO)
         {
             if (!ModelState.IsValid)
             {
-                return View(teacherSignupDTO);
+                return View(companySignupDTO);
             }
             
             try
             {
-                await applicationService.TeacherService.SignUpUserAsync(teacherSignupDTO);
+                await applicationService.CompanyService.SignUpUserAsync(companySignupDTO);
                 return RedirectToAction("Login", "User");
             }
             catch (Exception e)

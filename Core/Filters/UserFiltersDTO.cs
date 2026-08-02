@@ -1,4 +1,4 @@
-﻿namespace SchoolApp.Core.Filters
+﻿namespace CF9Project.Core.Filters
 {
     public class UserFiltersDTO
     {
