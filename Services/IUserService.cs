@@ -11,5 +11,6 @@ namespace CF9Project.Services
         Task<UserReadOnlyDTO?> GetUserByUsernameAsync(string username);
         Task<PaginatedResult<UserReadOnlyDTO>> GetPaginatedUsersFilteredAsync(int pageNumber, 
             int pageSize, UserFiltersDTO userFiltersDTO);
+        Task<User> RegisterAsync(RegisterDTO request);
     }
 }

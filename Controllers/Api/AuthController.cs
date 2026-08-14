@@ -1,9 +1,10 @@
+using CF9Project.DTO;
+using CF9Project.Exceptions;
+using CF9Project.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CF9Project.DTO;
-using CF9Project.Services;
 using System.Security.Claims;
 
 namespace CF9Project.Controllers.Api;
@@ -94,5 +95,36 @@ public class AuthController : ControllerBase
             CookieAuthenticationDefaults.AuthenticationScheme);
 
         return NoContent();
+    }
+
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register([FromBody] RegisterDTO request)
+    {
+        try
+        {
+            var user = await _applicationService.UserService.RegisterAsync(request);
+
+            _logger.LogInformation(
+                "API registration succeeded for {Username}",
+                user.Username);
+
+            return StatusCode(
+                StatusCodes.Status201Created,
+                new
+                {
+                    user.Id,
+                    user.Username,
+                    user.Email,
+                    user.RoleId
+                });
+        }
+        catch (EntityAlreadyExistsException ex)
+        {
+            return Conflict(new
+            {
+                message = ex.Message
+            });
+        }
     }
 }

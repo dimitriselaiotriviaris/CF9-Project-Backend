@@ -105,5 +105,31 @@ namespace CF9Project.Services
             }
             return user;
         }
+        public async Task<User> RegisterAsync(RegisterDTO request)
+        {
+            var existingUser =
+            await _unitOfWork.UserRepository.GetUserByUsernameAsync(request.Username!);
+
+            if (existingUser != null)
+            {
+                throw new EntityAlreadyExistsException(
+                    "User",
+                    $"User with username {request.Username} already exists");
+            }
+
+            var user = new User
+            {
+                Username = request.Username!,
+                Email = request.Email!,
+                Password = _encryptionUtil.Encrypt(request.Password!),
+                RoleId = request.RoleId!.Value
+
+            };
+
+            await _unitOfWork.UserRepository.AddAsync(user);
+            await _unitOfWork.SaveAsync();
+
+            return user;
+        }
     }
 }
