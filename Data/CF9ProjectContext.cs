@@ -36,6 +36,8 @@ public class CF9ProjectContext : DbContext
         modelBuilder.Entity<Game>(entity =>
         {
             entity.Property(e => e.Description).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Price).HasDefaultValue(0);
 
             entity.HasOne(d => d.Company)
                 .WithMany(p => p.Games)
