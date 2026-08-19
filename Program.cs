@@ -59,6 +59,11 @@ namespace CF9Project
                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                    options.SlidingExpiration = true;   // reset timeout, 30 min of idle
 
+                   // Important for Angular -> backend cookie auth
+                   options.Cookie.HttpOnly = true;
+                   options.Cookie.SameSite = SameSiteMode.None;
+                   options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
                    // API calls must receive HTTP 401/403 instead of an HTML redirect.
                    options.Events.OnRedirectToLogin = context =>
                    {
