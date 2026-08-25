@@ -70,6 +70,22 @@ public class CF9ProjectContext : DbContext
                 });
             //entity.HasIndex(e => e.Name, "IX_Roles_Name");
             entity.HasIndex(e => e.Name, "UQ_Roles_Name").IsUnique();
+            entity.HasData(
+            new Role
+            {
+                Id = 1,
+                Name = "ADMIN"
+            },
+            new Role
+            {
+                Id = 2,
+                Name = "COMPANY"
+            },
+            new Role
+            {
+                Id = 3,
+                Name = "GAMER"
+            });
         });
 
         modelBuilder.Entity<Gamer>(entity =>
