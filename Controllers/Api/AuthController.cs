@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace CF9Project.Controllers.Api;
 
@@ -126,5 +128,17 @@ public class AuthController : ControllerBase
                 message = ex.Message
             });
         }
+        catch (DbUpdateException ex)
+        when(ex.InnerException is SqlException sqlEx &&
+              (sqlEx.Number == 2601 ||
+               sqlEx.Number == 2627))
+            {
+                return Conflict(new
+                {
+                    message =
+                        "A user with this email already exists."
+                });
+            }
+        
     }
 }
